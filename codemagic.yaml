@@ -1,0 +1,19 @@
+workflows:
+  android-apk:
+    name: Hifz Ustoz APK
+    max_build_duration: 40
+    instance_type: mac_mini_m2
+    environment:
+      flutter: stable
+      java: 17
+    scripts:
+      - name: Android qismini yaratish
+        script: |
+          flutter create --org uz.hifzustoz --project-name hifz_ustoz --platforms android .
+          cp android_patch/AndroidManifest.xml android/app/src/main/AndroidManifest.xml
+      - name: Paketlarni yuklash
+        script: flutter pub get
+      - name: APK yig'ish
+        script: flutter build apk --release
+    artifacts:
+      - build/app/outputs/flutter-apk/app-release.apk
