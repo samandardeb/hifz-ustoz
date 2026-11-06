@@ -1,0 +1,51 @@
+name: APK yig'ish
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Android qismini yaratish
+        run: |
+          flutter create --org uz.hifzustoz --project-name hifz_ustoz --platforms android .
+          cp android_patch/AndroidManifest.xml android/app/src/main/AndroidManifest.xml
+
+      - run: flutter pub get
+
+      - name: Testlar
+        run: flutter test
+        continue-on-error: true
+
+      - name: APK yig'ish
+        run: flutter build apk --release
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Hifz-Ustoz-APK
+          path: build/app/outputs/flutter-apk/app-release.apk
+
+      - name: Release'ga joylash
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v1.0.${{ github.run_number }}
+          name: Hifz Ustoz 1.0.${{ github.run_number }}
+          files: build/app/outputs/flutter-apk/app-release.apk

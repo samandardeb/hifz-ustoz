@@ -1,0 +1,27 @@
+name: hifz_ustoz
+description: Qur'on va Allohning 99 ismini ma'nosi bilan yodlash ustozi.
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.3.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  just_audio: ^0.9.40
+  speech_to_text: ^7.0.0
+  flutter_tts: ^4.2.0
+  shared_preferences: ^2.3.2
+  google_fonts: ^6.2.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/quran.json
+    - assets/asma.json
